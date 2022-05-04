@@ -1,0 +1,36 @@
+
+<html>
+  <head>
+  <link rel="stylesheet" href="https://webgl2fundamentals.org/webgl/resources/webgl-tutorials.css">
+  <link rel="stylesheet" href="libs/coloris.js/coloris.min.css" />
+  </head>
+<body style="margin:0">
+  <canvas id="c" style="height: 100vh; width: 100vw; display: block" width="100%" height="100%"></canvas>
+  <div id="uiContainer">
+    <div id="ui">
+      <div id="scale"></div>
+      <div id="x"></div>
+      <div id="y"></div>
+      <div id="numofsources"></div>
+      <div id="frequency"></div>
+      <div id="thresh"></div>
+      <div id="thickness"></div>
+      <div id="gitter"></div>
+      <div id="sphere"></div>
+      <input type="text" class="coloris" value="rgb(255, 0, 0)">
+    </div>
+  </div>
+</body>
+<!--
+for most samples webgl-utils only provides shader compiling/linking and
+canvas resizing because why clutter the examples with code that's the same in every sample.
+See https://webgl2fundamentals.org/webgl/lessons/webgl-boilerplate.html
+and https://webgl2fundamentals.org/webgl/lessons/webgl-resizing-the-canvas.html
+for webgl-utils, m3, m4, and webgl-lessons-ui.
+-->
+<script src="libs/coloris.js/coloris.min.js"></script>
+<script src="https://webgl2fundamentals.org/webgl/resources/webgl-utils.js"></script>
+<script src="https://webgl2fundamentals.org/webgl/resources/webgl-lessons-ui.js"></script>
+<script src="texture.js"></script>
+
+</html>
