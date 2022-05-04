@@ -15,7 +15,7 @@ float wavelength;
 float pi = 3.1415926535897932384626433832795;
 
 //x,y,freq,phase
-vec4 lines[1] = vec4[6](vec4(-0.8, 0.9, -0.9, 0.85));
+vec4 lines[1] = vec4[1](vec4(-0.8, 0.9, -0.9, 0.85));
 
 vec4 objVertices[1] = vec4[1](vec4(-0.75, -0.5, 0.75, -0.95));
 
@@ -48,12 +48,21 @@ float interference(int n, int g) {
   return val;// / float(n*g);
 }
 
-float linewave(vec4 points, int divisions) {
-  float out=0;
+float linewavefront(vec4 points, int divisions) {
+  float linebright=0.0;
   for(int i=0;i<divisions;i++) {
-    out += wave(mix(points, points, float(i)/float(divisions)), wavelength, 0.0);
+    linebright += wave(mix(points.xy, points.zw, float(i)/float(divisions)), wavelength, 0.0);
   }
-  return out;
+  return linebright;
+}
+
+//x,y,dist
+vec3 lineraycast(vec4 points, vec2 normal) {
+  vec3 hit; //x,y,dist
+  for(int i=0; i<1; i++) {
+    float m = normal.y/normal.x;
+    
+  }
 }
 
 void main() {
@@ -63,7 +72,8 @@ void main() {
 
   float bright = 0.0;
 
-  bright += linewave(lines[0], 10);
+  bright += linewavefront(lines[0], 100);
+
   vec3 wavecolor = (u_color.xyz/255.0) * (bright);
   wavecolor = mix(wavecolor, vec3(0.0, 1.0, 1.0), obj(objVertices[0]));
 

@@ -25,7 +25,7 @@
     console.log('lel')
     document.getElementById("c").disabled = true;
   }
-  
+
   let positionAttributeLocation = gl.getAttribLocation(program, "a_position") // look up where the vertex data needs to go.
   const locations = new Map()
   const locStr = ["u_resolution", "u_color", "ratio", "frequency", "pos_offset", "num", "thresh", "gitter", "thickness", "sphereS", "scale", "speed", "time"] //needs ES6 for good looking
@@ -43,7 +43,7 @@
 
   // Tell the attribute how to get data out of positionBuffer (ARRAY_BUFFER)
   let translation = [0, 0]
-  let frequency = 300
+  let frequency = 5000
   let iteration = 1
   let threshold = 0
   let thickness = 1
@@ -52,7 +52,7 @@
   let normalize = false; // don't normalize the data
   let stride = 0;        // 0 = move forward size * sizeof(type) each iteration to get the next position
   let offset = 0;        // start at the beginning of the buffer
-  let color = [255,0,0]
+  let color = [15, 3, 3]
   let gitter = 1
   let sphere = 0
   let scale = 1
@@ -62,7 +62,7 @@
   const updatePosition = (index) => { (event, ui) => { translation[index] = ui.value/1000; drawScene(); }}
   webglLessonsUI.setupSlider("#x", {slide: updatePosition(0), max: 1000 })
   webglLessonsUI.setupSlider("#y", {slide: updatePosition(1), max: 1000 })
-  webglLessonsUI.setupSlider("#frequency", {slide: (event, ui) => { frequency = ui.value*5; drawScene(); }, max: 100, min: 1 })
+  webglLessonsUI.setupSlider("#frequency", {slide: (event, ui) => { frequency = ui.value*5; drawScene(); }, max: 1000, min: 1 })
   webglLessonsUI.setupSlider("#numofsources", {slide: (event, ui) => { iteration = ui.value**2; drawScene(); }, max: 25, min: 1 })
   webglLessonsUI.setupSlider("#thresh", {slide: (event, ui) => { threshold = ui.value/100000; drawScene(); }, max: 100000 })
   webglLessonsUI.setupSlider("#thickness", {slide: (event, ui) => { thickness = ui.value; drawScene(); }, max: 10, min:1 })
