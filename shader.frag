@@ -15,12 +15,7 @@ float wavelength;
 float pi = 3.1415926535897932384626433832795;
 
 //x,y,freq,phase
-vec4 sourcePoints[6] = vec4[6](vec4(-0.9, 0.75, 100, 0),
-                               vec4(-0.875, 0.76, 100, 0),
-                               vec4(-0.85, 0.77, 100, 0),
-                               vec4(-0.825, 0.78, 100, 0),
-                               vec4(-0.8, 0.79, 100, 0),
-                               vec4(-0.775, 0.8, 100, 0));
+vec4 lines[1] = vec4[6](vec4(-0.8, 0.9, -0.9, 0.85));
 
 vec4 objVertices[1] = vec4[1](vec4(-0.75, -0.5, 0.75, -0.95));
 
@@ -53,16 +48,22 @@ float interference(int n, int g) {
   return val;// / float(n*g);
 }
 
+float linewave(vec4 points, int divisions) {
+  float out=0;
+  for(int i=0;i<divisions;i++) {
+    out += wave(mix(points, points, float(i)/float(divisions)), wavelength, 0.0);
+  }
+  return out;
+}
+
 void main() {
   st = vec2(uv.x*ratio, uv.y);
   st *= scale;
   wavelength = 1.0 / frequency;
-  
+
   float bright = 0.0;
 
-  for(int i=0;i<6;i++) {
-    bright += wave(sourcePoints[i].xy, wavelength, sourcePoints[i].w);
-  }
+  bright += linewave(lines[0], 10);
   vec3 wavecolor = (u_color.xyz/255.0) * (bright);
   wavecolor = mix(wavecolor, vec3(0.0, 1.0, 1.0), obj(objVertices[0]));
 
