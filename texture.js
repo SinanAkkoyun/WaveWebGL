@@ -18,10 +18,17 @@
   if (!gl)
     return
 
-  let program = webglUtils.createProgramFromSources(gl, [vertexShaderSource, fragmentShaderSource]) // Use our boilerplate utils to compile the shaders and link into a program
+  let program
+  try {
+    program = webglUtils.createProgramFromSources(gl, [vertexShaderSource, fragmentShaderSource]) // Use our boilerplate utils to compile the shaders and link into a program
+  } catch(err) {
+    console.log('lel')
+    document.getElementById("c").disabled = true;
+  }
+  
   let positionAttributeLocation = gl.getAttribLocation(program, "a_position") // look up where the vertex data needs to go.
   const locations = new Map()
-  const locStr = ["u_resolution", "u_color", "ratio", "frequency", "pos_offset", "num", "thresh", "gitter", "thickness", "sphereS", "scale"] //needs ES6 for good looking
+  const locStr = ["u_resolution", "u_color", "ratio", "frequency", "pos_offset", "num", "thresh", "gitter", "thickness", "sphereS", "scale", "speed", "time"] //needs ES6 for good looking
   locStr.map(loc => {
     locations.set(loc, gl.getUniformLocation(program, loc))
   })
@@ -36,7 +43,7 @@
 
   // Tell the attribute how to get data out of positionBuffer (ARRAY_BUFFER)
   let translation = [0, 0]
-  let frequency = 100
+  let frequency = 300
   let iteration = 1
   let threshold = 0
   let thickness = 1
@@ -49,8 +56,9 @@
   let gitter = 1
   let sphere = 0
   let scale = 1
+  let speed = 100
   
-  webglLessonsUI.setupSlider("#scale", {slide: (event, ui) => { scale = ui.value / 10; drawScene(); }, max: 100, min: 10 })
+  webglLessonsUI.setupSlider("#scale", {slide: (event, ui) => { scale = ui.value / 10; drawScene(); }, max: 1000, min: 10 })
   const updatePosition = (index) => { (event, ui) => { translation[index] = ui.value/1000; drawScene(); }}
   webglLessonsUI.setupSlider("#x", {slide: updatePosition(0), max: 1000 })
   webglLessonsUI.setupSlider("#y", {slide: updatePosition(1), max: 1000 })
@@ -60,6 +68,7 @@
   webglLessonsUI.setupSlider("#thickness", {slide: (event, ui) => { thickness = ui.value; drawScene(); }, max: 10, min:1 })
   webglLessonsUI.setupSlider("#gitter", {slide: (event, ui) => { gitter = ui.value; drawScene(); }, max: 100, min: 1 })
   webglLessonsUI.setupSlider("#sphere", {slide: (event, ui) => { sphere = ui.value; drawScene(); }, max: 1, min: 0 })
+  webglLessonsUI.setupSlider("#speed", {slide: (event, ui) => { speed = ui.value; drawScene(); }, max: 100, min: 0 })
 
   Coloris({
     el: '.coloris',
@@ -68,7 +77,7 @@
     swatches: [ '#264653', '#2a9d8f', '#e9c46a', '#f4a261', '#e76f51', '#d62828', '#023e8a', '#0077b6', '#0096c7', '#00b4d8', '#48cae4' ]
   })
   document.addEventListener('coloris:pick', event => {
-    let colorarr = (event.detail.color.replace(/[^0-9,]/g, '') + ',1').split(',').map(Number)
+    let colorarr = event.detail.color.match(/\d+/g)
     color = colorarr
     drawScene()
   })
@@ -97,13 +106,21 @@
     gl.uniform4f(glloc('u_color'), color[0], color[1], color[2], color[3])
     gl.uniform1i(glloc('sphereS'), sphere)
     gl.uniform1f(glloc('scale'), scale)
+    gl.uniform1f(glloc('speed'), speed)
+    gl.uniform1f(glloc('time'), performance.now())
 
     let primitiveType = gl.TRIANGLES
     let offset = 0
     let count = 6
     gl.drawArrays(primitiveType, offset, count)
   }
-  drawScene()
+
+  function render() {
+    drawScene()
+    window.requestAnimationFrame(render)
+  }
+
+  render();
 
   // Fill the buffer with the values that define a rectangle.
   function setRectangle(gl, x, y, width, height) {
