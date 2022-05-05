@@ -43,10 +43,10 @@
 
   // Tell the attribute how to get data out of positionBuffer (ARRAY_BUFFER)
   let translation = [0, 0]
-  let frequency = 5000
+  let frequency = 2500
   let iteration = 1
-  let threshold = 0
-  let thickness = 1
+  let threshold = 1
+  let thickness = 0
   let size = 2;          // 2 components per iteration
   let type = gl.FLOAT;   // the data is 32bit floats
   let normalize = false; // don't normalize the data
@@ -58,17 +58,17 @@
   let scale = 1
   let speed = 100
   
-  webglLessonsUI.setupSlider("#scale", {slide: (event, ui) => { scale = ui.value / 10; drawScene(); }, max: 1000, min: 10 })
-  const updatePosition = (index) => { (event, ui) => { translation[index] = ui.value/1000; drawScene(); }}
+  webglLessonsUI.setupSlider("#scale", {slide: (event, ui) => { scale = ui.value / 10; }, max: 1000, min: 10 })
+  const updatePosition = (index) => { (event, ui) => { translation[index] = ui.value/10 }}
   webglLessonsUI.setupSlider("#x", {slide: updatePosition(0), max: 1000 })
   webglLessonsUI.setupSlider("#y", {slide: updatePosition(1), max: 1000 })
-  webglLessonsUI.setupSlider("#frequency", {slide: (event, ui) => { frequency = ui.value*5; drawScene(); }, max: 1000, min: 1 })
-  webglLessonsUI.setupSlider("#numofsources", {slide: (event, ui) => { iteration = ui.value**2; drawScene(); }, max: 25, min: 1 })
-  webglLessonsUI.setupSlider("#thresh", {slide: (event, ui) => { threshold = ui.value/100000; drawScene(); }, max: 100000 })
-  webglLessonsUI.setupSlider("#thickness", {slide: (event, ui) => { thickness = ui.value; drawScene(); }, max: 10, min:1 })
-  webglLessonsUI.setupSlider("#gitter", {slide: (event, ui) => { gitter = ui.value; drawScene(); }, max: 100, min: 1 })
-  webglLessonsUI.setupSlider("#sphere", {slide: (event, ui) => { sphere = ui.value; drawScene(); }, max: 1, min: 0 })
-  webglLessonsUI.setupSlider("#speed", {slide: (event, ui) => { speed = ui.value; drawScene(); }, max: 100, min: 0 })
+  webglLessonsUI.setupSlider("#frequency", {slide: (event, ui) => { frequency = ui.value*5; }, max: 1000, min: 1 })
+  webglLessonsUI.setupSlider("#numofsources", {slide: (event, ui) => { iteration = ui.value**2;  }, max: 25, min: 1 })
+  webglLessonsUI.setupSlider("#thresh", {slide: (event, ui) => { threshold = ui.value/100000; }, max: 100000 })
+  webglLessonsUI.setupSlider("#thickness", {slide: (event, ui) => { thickness = ui.value/30000; }, max: 1000, min:0 })
+  webglLessonsUI.setupSlider("#gitter", {slide: (event, ui) => { gitter = ui.value; }, max: 100, min: 1 })
+  webglLessonsUI.setupSlider("#sphere", {slide: (event, ui) => { sphere = ui.value; }, max: 1, min: 0 })
+  webglLessonsUI.setupSlider("#speed", {slide: (event, ui) => { speed = ui.value; }, max: 100, min: 0 })
 
   Coloris({
     el: '.coloris',
