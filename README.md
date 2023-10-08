@@ -9,6 +9,8 @@ I quickly wrote this repo to explain light wave interferences, reflection and re
 When casting a beam of coherent (laser) light, one can think of the linear wavefront as a superposition of infinitesimal radial waves, all with the same phase (meaning synchronized in time).
 Now, when the beam hits a reflective surface, the left corner of the wavefront hits first, the right corner hits the surface at last. The newly reflected "radial" elementary waves (Huygen) hitting the surface first have a different phase than the waves that hit the surface later, therefore an reflected beam occurs with the angle of incidence.
 
+The refraction, seen in the first picture, works on a similar basis, only that the optical medium (through it's optical density difference) slows the speed of wave propagation down, so that the refraction angle changes according to Snell's law.
+
 
 This was my first shader and WebGL project
 
